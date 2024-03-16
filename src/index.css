@@ -1,0 +1,14 @@
+@font-face {
+  font-family: Basis-Grotesque-Pro;
+  src: url(./assets/fonts/BasisGrotesquePro-Medium.ttf);
+}
+body {
+  margin: 0;
+  font-family: Basis-Grotesque-Pro;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+}
