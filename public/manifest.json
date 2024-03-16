@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Qencode",
+  "name": "Qencode is a cloud video services provider that offers video transcoding, live streaming, media storage, content delivery and many other video APIs.",
   "icons": [
     {
       "src": "favicon.ico",

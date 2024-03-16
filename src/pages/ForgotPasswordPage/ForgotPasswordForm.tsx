@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { Paths } from "../../utils/constants";
 
 import { $api } from "../../api/api";
-import { handleError } from "../../utils/helpers";
+import { handleError, reUrlForResetPassword } from "../../utils/helpers";
+import { toast } from "react-toastify";
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate();
@@ -29,7 +30,11 @@ export const ForgotPasswordForm = () => {
   const handleSubmit = useCallback(
     async (values: object) => {
       try {
-        await $api.post("/v1/auth/password-reset", { ...values });
+        const { data } = await $api.post("/v1/auth/password-reset", {
+          ...values,
+          redirect_url: reUrlForResetPassword(),
+        });
+        toast.success(data?.detail);
       } catch (err) {
         handleError(err);
       } finally {

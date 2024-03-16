@@ -11,7 +11,7 @@ import { $api } from "../../api/api";
 import { localStorageItems, secret } from "../../utils/constants";
 import { handleError } from "../../utils/helpers";
 
-import { InputsWrapper } from "./styles";
+import { InputsWrapper, Label } from "./styles";
 
 export const SetPasswordForm = () => {
   const validationSchema = useMemo(
@@ -22,7 +22,8 @@ export const SetPasswordForm = () => {
           .min(8, "Password must be at least 8 characters long"),
         password_confirm: Yup.string()
           .required("Password is required")
-          .min(8, "Password must be at least 8 characters long"),
+          .min(8, "Password must be at least 8 characters long")
+          .oneOf([Yup.ref("password")], "Passwords must match"),
       }),
     []
   );
@@ -32,6 +33,7 @@ export const SetPasswordForm = () => {
       localStorage.getItem(localStorageItems.ACCESS_TOKEN) || "";
 
     try {
+      //Sorry, I don`t know where I can get "secret" and "token" if user forgot password and can`t login to the app
       await $api.post("/v1/auth/password-set", {
         ...values,
         secret: secret,
@@ -52,22 +54,28 @@ export const SetPasswordForm = () => {
       {({ handleChange, values }) => (
         <Form>
           <InputsWrapper>
-            <FormInput
-              placeholder="Enter new password"
-              type="password"
-              name="password"
-              onChange={handleChange}
-              value={values.password}
-              isPassword={true}
-            />
-            <FormInput
-              placeholder="Confirm  password"
-              type="password"
-              name="password_confirm"
-              onChange={handleChange}
-              value={values.password_confirm}
-              isPassword={true}
-            />
+            <div>
+              <Label>Password</Label>
+              <FormInput
+                placeholder="Password"
+                type="password"
+                name="password"
+                onChange={handleChange}
+                value={values.password}
+                isPassword={true}
+              />
+            </div>
+            <div>
+              <Label>Confirm Password</Label>
+              <FormInput
+                placeholder="Password"
+                type="password"
+                name="password_confirm"
+                onChange={handleChange}
+                value={values.password_confirm}
+                isPassword={true}
+              />
+            </div>
           </InputsWrapper>
           <SubmitButton type="submit" buttonText="Reset Password" />
         </Form>

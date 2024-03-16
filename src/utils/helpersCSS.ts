@@ -1,6 +1,6 @@
 export const hoverButton = `
     &:hover {
-    opacity: 0.9;
+    opacity: 0.8;
     transition: all ease-in-out 0.1s;
     }
 `

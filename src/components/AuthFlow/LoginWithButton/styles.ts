@@ -12,6 +12,13 @@ export const ButtonWrapper = styled.button`
     cursor: pointer;
 
     ${hoverButton}
+
+    @media (max-width: 400px) {
+        padding: 15px 40px;
+    }
+    @media (max-width: 300px) {
+        padding: 10px 25px;
+    }
 `
 
 export const ButtonIcon = styled.div`

@@ -6,16 +6,20 @@ import * as Yup from "yup";
 import FormInput from "../../components/AuthFlow/FormInput";
 import SubmitButton from "../../components/AuthFlow/SubmitButton";
 
-import { NavLink } from "react-router-dom";
-
-import { Paths } from "../../utils/constants";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { $api } from "../../api/api";
 
-import { InputsWrapper, LinkText } from "./styles";
+import { Paths, localStorageItems } from "../../utils/constants";
 import { handleError } from "../../utils/helpers";
 
+import Cookies from "js-cookie";
+
+import { InputsWrapper, LinkText } from "./styles";
+
 export const LoginPageForm = () => {
+  const navigate = useNavigate();
+
   const [isEmailEntered, setIsEmailEntered] = useState<boolean>(false);
 
   const validationSchema = useMemo(
@@ -43,12 +47,18 @@ export const LoginPageForm = () => {
       }
 
       try {
-        await $api.post("/v1/auth/login", { ...values });
+        const { data } = await $api.post("/v1/auth/login", { ...values });
+        const { access_token, refresh_token } = data;
+
+        localStorage.setItem(localStorageItems.ACCESS_TOKEN, access_token);
+        Cookies.set(localStorageItems.REFRESH_TOKEN, refresh_token);
+
+        navigate(Paths.MAIN);
       } catch (err) {
         handleError(err);
       }
     },
-    [isEmailEntered]
+    [isEmailEntered, navigate]
   );
 
   return (
